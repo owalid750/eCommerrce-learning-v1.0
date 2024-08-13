@@ -5,9 +5,17 @@ task 3 create link to go to public profile for publisher  page
 
 -->
 <?php
+ob_start();
 session_name('user_session');
 session_start();
 include "./init.php";
+// Check if the request method is not POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // Redirect to the homepage
+    header('Location: index.php');
+    exit();
+}
+
 $conn = connect_db();
 // Check if item_id is in POST data or session variable
 if (isset($_POST['item_id'])) {
@@ -350,27 +358,30 @@ $cat_name = isset($_POST['cat_name']) ? $_POST['cat_name'] : (isset($_SESSION['c
                             // Fetch the cart from cookies
                             $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
                             ?>
-                            <?php if (!isset($cart[$item['item_id']])) : ?>
-                                <div>
-                                    <form action="handle_cart.php?action=add" method="post">
-                                        <input type="hidden" name="action" value="add">
-                                        <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                                        <input type="hidden" name="redirect" value="item_page.php"> <!-- Redirect after add -->
-                                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                                    </form>
-                                </div>
-                            <?php else : ?>
-                                <div>
-                                    <form action="cart.php" method="post">
-                                        <input type="hidden" name="action" value="remove">
-                                        <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                                        <input type="hidden" name="redirect" value="cart.php"> <!-- Redirect to cart -->
-                                        <p>Item added to cart</p>
-                                        <button type="submit" class="btn btn-primary">Go to Cart</button>
-                                    </form>
-                                </div>
+                            <?php if ($item["is_item_approved"] == 1): ?>
+                                <?php if (!isset($cart[$item['item_id']])) : ?>
+                                    <div>
+                                        <form action="handle_cart.php?action=add" method="post">
+                                            <input type="hidden" name="action" value="add">
+                                            <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                            <input type="hidden" name="redirect" value="item_page.php"> <!-- Redirect after add -->
+                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                        </form>
+                                    </div>
+                                <?php else : ?>
+                                    <div>
+                                        <form action="cart.php" method="post">
+                                            <input type="hidden" name="action" value="remove">
+                                            <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                            <input type="hidden" name="redirect" value="cart.php"> <!-- Redirect to cart -->
+                                            <p>Item added to cart</p>
+                                            <button type="submit" class="btn btn-primary">Go to Cart</button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <p style="color:red">This item is not approved yet.</p>
                             <?php endif; ?>
-
 
                         </div>
                         <a href="categories.php" class="btn btn-primary">Back to Home</a>
@@ -531,3 +542,4 @@ $cat_name = isset($_POST['cat_name']) ? $_POST['cat_name'] : (isset($_SESSION['c
 
 
 </html>
+<?php ob_end_flush();?>

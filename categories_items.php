@@ -1,7 +1,15 @@
 <?php
+ob_start();
 session_name('user_session');
 session_start();
 include "./init.php";
+// Check if the request method is not POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // Redirect to the homepage
+    header('Location: index.php');
+    exit();
+}
+
 $conn = connect_db();
 $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
 $cat_name = isset($_POST["cat_name"]) ? $_POST['cat_name'] : "";
@@ -176,3 +184,4 @@ $_SESSION["cat_name"] = $cat_name;
 </body>
 
 </html>
+<?php ob_end_flush();?>
