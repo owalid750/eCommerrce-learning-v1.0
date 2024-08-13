@@ -261,6 +261,47 @@ $categories = getItems($conn, "categories", "category_id", null, null, 2000, [],
         font-weight: bold;
     }
 
+   
+    .navbar {
+        background-color: #333;
+        color: #fff;
+        /* Use primary color for the navbar background */
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand img {
+        height: 50px;
+        /* Adjust logo size */
+        transition: transform 0.3s, opacity 0.3s;
+        /* Smooth transition for hover effects */
+    }
+
+    .navbar-brand img:hover {
+        transform: scale(1.1);
+        /* Slightly enlarge the logo on hover */
+        opacity: 0.9;
+        /* Slightly fade the logo on hover */
+    }
+
+    .navbar-brand img:focus {
+        outline: 2px solid var(--secondary-color);
+        /* Accessibility outline on focus */
+    }
+
+    /* Example colors */
+    :root {
+        --primary-color: #4a90e2;
+        /* Calm blue */
+        --secondary-color: #50e3c2;
+        /* Soft teal */
+        --text-color: #fff;
+        /* White text color */
+    }
+
     @keyframes fadeIn {
         from {
             opacity: 0;
@@ -310,7 +351,11 @@ $categories = getItems($conn, "categories", "category_id", null, null, 2000, [],
         <button class="navbar-toggler" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
-        <a href="index.php" class="navbar-brand">YourLogo</a>
+   
+            <a href="index.php" class="navbar-brand" aria-label="Homepage">
+                <img src="Modern Minimal E-Commerce Logo.png" alt="Our Shop Logo">
+            </a>
+      
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a href="index.php" class="nav-link">Home</a>
