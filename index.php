@@ -65,7 +65,8 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
             justify-content: center;
             text-align: center;
             height: 100vh;
-            background: url('Modern Minimal E-Commerce Logo.png') no-repeat center center;
+            /* background: url('Modern Minimal E-Commerce Logo.png') no-repeat center center; */
+            background-color: white;
             background-size: cover;
             color: #fff;
             position: relative;
@@ -121,8 +122,8 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
         }
 
         .user-avatar {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             margin-right: 10px;
             vertical-align: middle;
@@ -139,6 +140,13 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
             text-align: center;
             background-color: var(--background-color);
             /* Light background for sections */
+        }
+
+        .section-header {
+            display: block;
+            padding: 60px 20px;
+            text-align: center;
+            background-color: var(--background-color);
         }
 
         .section h2 {
@@ -169,7 +177,7 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            max-width: 300px;
+            max-width: 400px;
             flex: 1;
             opacity: 0;
             /* Start hidden for animation */
@@ -180,6 +188,8 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
 
         .product img,
         .testimonial img {
+            max-width: 100%;
+            padding-bottom: 10px;
             width: 100%;
             border-radius: 8px;
         }
@@ -250,6 +260,17 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
             color: #fff;
         }
 
+        .card-img-placeholder {
+            height: 200px;
+            background-color: #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
         /* AOS Animations */
         .aos-animate {
             opacity: 1 !important;
@@ -290,12 +311,16 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
     </div>
 
     <!-- Products Section -->
-    <section class="section products">
+    <div class="section-header">
         <h2 data-aos="fade-up">Featured Products</h2>
         <p data-aos="fade-up">Check out our selection of the latest and greatest products.</p>
+    </div>
+    <section class="section products">
         <?php foreach ($items as $item): ?>
             <div class="product" data-aos="fade-up" data-aos-delay="100">
-                <img src="product1.jpg" alt="image">
+                <div class="card-img-placeholder">
+                    <?php echo htmlspecialchars($item['item_name']); ?>
+                </div>
                 <h3><?php echo htmlspecialchars($item['item_name']) ?></h3>
                 <p><?php echo htmlspecialchars($item['item_desc']) ?></p>
                 <form action="item_details.php" method="post">
@@ -310,9 +335,11 @@ $comments = getItems($conn, "comments", "comment_id", null, null, 5, [
     </section>
 
     <!-- Testimonials Section -->
-    <section class="section testimonials">
+    <div class="section-header">
         <h2 data-aos="fade-up">What Our Customers Say</h2>
         <p data-aos="fade-up">Read feedback from our satisfied customers.</p>
+    </div>
+    <section class="section testimonials">
         <?php foreach ($comments as $comment): ?>
             <div class="testimonial" data-aos="fade-up" data-aos-delay="100">
                 <?php if (!empty($comment['user_image'])) : ?>

@@ -358,7 +358,7 @@ function handleProfileUpdate($conn, $user_id)
         $stmt = $conn->prepare('SELECT user_image FROM users WHERE user_id = :user_id');
         $stmt->execute(['user_id' => $user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user_image = $user['user_image'] ?? 'path/to/avatar.png';
+        $user_image = $user['user_image'] ?? 'avatar.png';
     }
 
     // Update user details
